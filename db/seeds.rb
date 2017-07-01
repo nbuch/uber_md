@@ -1,7 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+address = Address.find_or_create_by(line_one: "123 Main Street", line_two: "", city: "Austin", state: "TX", zip: "78757")
+provider = Provider.find_or_create_by(name: 'DrStrange', specialty: 'proctology', npi: '12345', address_id: address.id)
+Shift.find_or_create_by(start_time: Time.now, end_time: Time.now + 1.hour, date: Date.new, provider_id: provider.id)
+
