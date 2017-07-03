@@ -25,14 +25,19 @@ ActiveRecord::Schema.define(version: 20170702172116) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "genders", force: :cascade do |t|
+    t.string "sex"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.string   "name"
     t.string   "mpi"
     t.date     "dob"
-    t.string   "gender"
+    t.integer  "gender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "address_id"
+    t.index ["gender_id"], name: "index_patients_on_gender_id", using: :btree
   end
 
   create_table "providers", force: :cascade do |t|
@@ -45,9 +50,8 @@ ActiveRecord::Schema.define(version: 20170702172116) do
   end
 
   create_table "shifts", force: :cascade do |t|
-    t.time     "start_time"
-    t.time     "end_time"
-    t.date     "date"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer  "provider_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -68,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170702172116) do
     t.index ["provider_id"], name: "index_visits_on_provider_id", using: :btree
   end
 
+  add_foreign_key "patients", "genders"
   add_foreign_key "shifts", "providers"
   add_foreign_key "visits", "addresses"
   add_foreign_key "visits", "patients"
